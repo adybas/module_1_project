@@ -3,7 +3,7 @@ class CreatePokemonsTable < ActiveRecord::Migration[6.0]
     create_table :pokemons do |t|
       t.string :name
       t.integer :type_id
-      t.string :move
+      t.integer :move_id
       t.integer :max_hp
     end
   end
