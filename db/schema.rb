@@ -10,7 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_30_193359) do
+ActiveRecord::Schema.define(version: 2019_12_30_214042) do
+
+  create_table "attacks", force: :cascade do |t|
+    t.integer "move_id"
+    t.integer "move_damage"
+  end
 
   create_table "pokemons", force: :cascade do |t|
     t.string "name"
