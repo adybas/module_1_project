@@ -10,7 +10,7 @@ Trainer.destroy_all
 Type.destroy_all
 
 squirtle = Pokemon.find_or_create_by(name: "Squirtle", type_id: 1, move: "Bubble", max_hp: 50)
-shelldar = Pokemon.find_or_create_by(name: "Shelldar", type_id: 1, move: "Water Gun", max_hp: 70)
+shellder = Pokemon.find_or_create_by(name: "Shellder", type_id: 1, move: "Water Gun", max_hp: 70)
 tentacruel = Pokemon.find_or_create_by(name: "Tentacruel", type_id: 1, move: "Whip", max_hp: 100)
 froakie = Pokemon.find_or_create_by(name: "Froakie", type_id: 1, move: "Scald", max_hp: 50)
 
