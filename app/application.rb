@@ -6,9 +6,38 @@ prompt = TTY::Prompt.new
 
 
 
-    def clear_screen
-        system"clear"
+def clear_screen
+    system"clear"
+end
+
+def choose_pokemon 
+    # randomly samples 5 pokemon from all Pokemon in database
+    pokemon = Pokemon.all.sample(5) 
+
+    #outs array of pokemon.name from our pokemon array in line 15
+    pokemon_names = pokemon.map do |pokemon| 
+            pokemon.name
+    end  
+
+    puts "Do you like this team?" 
+    puts pokemon_names
+    team_option = gets.chomp.downcase
+    if team_option == "no" #anything other then lowercase no is treated as yes
+        choose_pokemon
+    else
+        #trainer.pokemons << pokemon
+        puts "Okay, great! Let's get started!"
     end
+end
+
+def computer_pokemon
+    pokemon_name_array = []
+    Pokemon.all.select do |pokemon|
+        pokemon_name_array << pokemon.name
+    end
+    puts pokemon_name_array.sample(5)
+end
+
 
     def welcome
         clear_screen
@@ -22,14 +51,11 @@ prompt = TTY::Prompt.new
         if battle_option == "no"
         exit
         else
-        puts "Let's battle! But first, you will need to choose a Pokemon!" 
+            puts "Let's battle! But first, you will need to accept your team!"
+            choose_pokemon
         end
     end
 
-    def choose_pokemon
-        pokemon = Pokemon.all
-        binding.pry
-    end
 
 
 
@@ -41,4 +67,4 @@ prompt = TTY::Prompt.new
 
 
 #binding.pry
-choose_pokemon
+welcome
