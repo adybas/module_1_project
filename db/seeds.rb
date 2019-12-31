@@ -13,20 +13,27 @@ end
 def get_pokemon
     get_pokemon_array.map do |pokemon|
         name = pokemon["name"]
-        Pokemon.create(name: name)
         
         url = pokemon["url"]
         pokemon_url = RestClient.get(url)
         pokemon_url_hash = JSON.parse(pokemon_url)
-        types = pokemon_url_hash["types"].map do |array|
+        type = pokemon_url_hash["types"].map do |array|
             array["type"]["name"]
-        end
-        max_ep = pokemon_url_hash["base_experience"] * 4
-        
-        moves = pokemon_url_hash["moves"].map do |array|
-            array["move"]["name"]
-            array["move"]["url"]
-        end
+        end.first
+        max_hp = pokemon_url_hash["base_experience"] * 4
+
+        first_move = pokemon_url_hash["moves"].first["move"]["name"]
+
+# ===================
+#         moves = pokemon_url_hash["moves"].map do |array|
+#             array["move"]["name"]
+#             array["move"]["url"]
+#         end
+# ===================
+
+        type_id = Type.find_or_create_by(element: type).id
+        attack_id = Attack.find_or_create_by(move: first_move, move_damage: 50).id
+        Pokemon.find_or_create_by(name: name, type_id: type_id, attack_id: attack_id, max_hp: max_hp)
     end
 end
 
