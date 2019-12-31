@@ -1,7 +1,10 @@
-
 require 'pry'
 require "tty-prompt"
+require_relative '../config/environment.rb'
+
 prompt = TTY::Prompt.new
+
+
 
     def clear_screen
         system"clear"
@@ -24,7 +27,10 @@ prompt = TTY::Prompt.new
     end
 
     def choose_pokemon
+        pokemon = Pokemon.all
+        binding.pry
     end
+
 
 
 
@@ -35,4 +41,4 @@ prompt = TTY::Prompt.new
 
 
 #binding.pry
-# welcome
+choose_pokemon
