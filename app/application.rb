@@ -50,49 +50,50 @@ def starting_battle_dialog
     puts "\n"
 end
 
-def tr_pkmn_dmg
-        
+def tr_pkmn_dmg    
     puts "Use #{@trainer.pokemons[0].attack.move}?"
     puts "Type Yes or No"
     battle_input = gets.chomp.downcase
+
     if battle_input == "yes"
         puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} uses #{@trainer.pokemons[0].attack.move}, which does #{@trainer.pokemons[0].attack.move_damage} damage to #{@computer_trainer[0].name}!"
         @computer_pkmn_hp -= @trainer.pokemons[0].attack.move_damage
-        else
-            clear_screen
-            puts "You must attack!"
-            puts "\n"
-            puts "\n"
-            tr_pkmn_dmg
-    end
-    while @computer_pkmn_hp >= 0
+    else
+        clear_screen
+        puts "You must attack!"
         puts "\n"
-        puts "Computers #{@computer_trainer[0].name} has #{@computer_pkmn_hp} HP remaining!"
-        puts "Computer Trainer won with their #{@computer_trainer[0].name}! #{@trainer.name} runs in terror!!"
-    
         puts "\n"
-        computer_pkmn_dmg
+        tr_pkmn_dmg
     end
+
+    puts "\n"
+    puts "Computers #{@computer_trainer[0].name} has #{@computer_pkmn_hp} HP remaining!"
+    puts "\n"
 end
 
-def computer_pkmn_dmg
-    
+def computer_pkmn_dmg 
     puts "Computers #{@computer_trainer[0].name} uses #{@computer_trainer[0].attack.move}, which does #{@computer_trainer[0].attack.move_damage} damage to #{@trainer.pokemons[0].name}!"
     @trainer_pkmn_hp -= @computer_trainer[0].attack.move_damage
     puts "\n"
-        while @trainer_pkmn_hp >= 0
-        puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} has #{@trainer_pkmn_hp} HP remaining!"
-        puts "\n"
-        
-        puts "#{@trainer.name} won with their #{@trainer.pokemons[0].name}! Computer player runs in terror!!"
-        tr_pkmn_dmg
-    end
+    
+    puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} has #{@trainer_pkmn_hp} HP remaining!"
+    puts "\n"   
 end
 
+def you_dead?
+    if @trainer_pkmn_hp <= 0 
+        abort("Computer Trainer won with their #{@computer_trainer[0].name}! #{@trainer.name} runs in terror!!")
+    elsif @computer_pkmn_hp <= 0
+        abort("#{@trainer.name} won with their #{@trainer.pokemons[0].name}! Computer player runs in terror!!")
+    end      
+end
 
 def battle_simulator
-    tr_pkmn_dmg
-    computer_pkmn_dmg
+    while @computer_pkmn_hp >= 0 || @trainer_pkmn_hp >= 0 
+        tr_pkmn_dmg
+        computer_pkmn_dmg
+        you_dead?
+    end
 end
 
 def pokemon_ascii

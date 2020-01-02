@@ -16,7 +16,7 @@ def get_pokemon
         type = pokemon_url_hash["types"].map do |array|
             array["type"]["name"]
         end.first
-        max_hp = pokemon_url_hash["base_experience"] * 4
+        max_hp = pokemon_url_hash["base_experience"] * 2
         first_move = pokemon_url_hash["moves"].first["move"]["name"]
 # ===================
 #         moves = pokemon_url_hash["moves"].map do |array|
@@ -25,7 +25,7 @@ def get_pokemon
 #         end
 # ===================
         type_id = Type.find_or_create_by(element: type).id
-        attack_id = Attack.find_or_create_by(move: first_move, move_damage: 50).id
+        attack_id = Attack.find_or_create_by(move: first_move, move_damage: rand(30..50)).id
         Pokemon.find_or_create_by(name: name, type_id: type_id, attack_id: attack_id, max_hp: max_hp)
     end
 end
