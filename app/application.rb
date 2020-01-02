@@ -24,6 +24,7 @@ def choose_pokemon
     team_option = gets.chomp.downcase
 
     if team_option == "yes"
+        clear_screen
         puts "Okay, great! Let's get started!"
         @trainer.pokemons.clear
         @trainer.pokemons << random_pokemon
@@ -50,31 +51,44 @@ def starting_battle_dialog
 end
 
 def tr_pkmn_dmg
+        
     puts "Use #{@trainer.pokemons[0].attack.move}?"
     puts "Type Yes or No"
     battle_input = gets.chomp.downcase
     if battle_input == "yes"
-    puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} uses #{@trainer.pokemons[0].attack.move}, which does #{@trainer.pokemons[0].attack.move_damage} damage to #{@computer_trainer[0].name}!"
-    @computer_pkmn_hp -= @trainer.pokemons[0].attack.move_damage
-    else
-        clear_screen
-        puts "You must attack!"
-        puts "\n"
-        puts "\n"
-        tr_pkmn_dmg
+        puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} uses #{@trainer.pokemons[0].attack.move}, which does #{@trainer.pokemons[0].attack.move_damage} damage to #{@computer_trainer[0].name}!"
+        @computer_pkmn_hp -= @trainer.pokemons[0].attack.move_damage
+        else
+            clear_screen
+            puts "You must attack!"
+            puts "\n"
+            puts "\n"
+            tr_pkmn_dmg
     end
-    puts @computer_pkmn_hp
-    puts "\n"
-    computer_pkmn_dmg
+    while @computer_pkmn_hp >= 0
+        puts "\n"
+        puts "Computers #{@computer_trainer[0].name} has #{@computer_pkmn_hp} HP remaining!"
+        puts "Computer Trainer won with their #{@computer_trainer[0].name}! #{@trainer.name} runs in terror!!"
+    
+        puts "\n"
+        computer_pkmn_dmg
+    end
 end
 
 def computer_pkmn_dmg
+    
     puts "Computers #{@computer_trainer[0].name} uses #{@computer_trainer[0].attack.move}, which does #{@computer_trainer[0].attack.move_damage} damage to #{@trainer.pokemons[0].name}!"
     @trainer_pkmn_hp -= @computer_trainer[0].attack.move_damage
-    puts @trainer_pkmn_hp
     puts "\n"
-    tr_pkmn_dmg
+        while @trainer_pkmn_hp >= 0
+        puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} has #{@trainer_pkmn_hp} HP remaining!"
+        puts "\n"
+        
+        puts "#{@trainer.name} won with their #{@trainer.pokemons[0].name}! Computer player runs in terror!!"
+        tr_pkmn_dmg
+    end
 end
+
 
 def battle_simulator
     tr_pkmn_dmg
@@ -134,4 +148,4 @@ end
 
 run
 
-binding.pry
+# binding.pry
