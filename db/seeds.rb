@@ -1,7 +1,7 @@
 require 'rest-client'
 require 'json'
 require 'pry'
-Pokemon.destroy_all
+#Pokemon.destroy_all
 def get_pokemon_array
     all_pokemon = RestClient.get('https://pokeapi.co/api/v2/pokemon?limit=151')
     pokemon_hash = JSON.parse(all_pokemon)
@@ -13,20 +13,33 @@ def get_pokemon
         url = pokemon["url"]
         pokemon_url = RestClient.get(url)
         pokemon_url_hash = JSON.parse(pokemon_url)
+
         type = pokemon_url_hash["types"].map do |array|
             array["type"]["name"]
         end.first
+
         max_hp = pokemon_url_hash["base_experience"] * 2
-        first_move = pokemon_url_hash["moves"].first["move"]["name"]
-# ===================
-#         moves = pokemon_url_hash["moves"].map do |array|
-#             array["move"]["name"]
-#             array["move"]["url"]
-#         end
-# ===================
+
+
+        moves = pokemon_url_hash["moves"].map {|array| array["move"]}
+        random_move_array = moves.map do |move| 
+            move_name = move["name"]
+            move_url = move["url"]
+                move_url_data = RestClient.get(move_url)
+                move_url_hash = JSON.parse(move_url_data)
+                move_power_dmg = move_url_hash["power"]
+                binding.pry
+        end.sample(4)
+        #["petal-dance", "razor-wind", "nature-power", "rock-smash"]
+        #first_move = pokemon_url_hash["moves"].first["move"]["name"]
+
+        puts move_name
+        
         type_id = Type.find_or_create_by(element: type).id
-        attack_id = Attack.find_or_create_by(move: first_move, move_damage: rand(30..50)).id
-        Pokemon.find_or_create_by(name: name, type_id: type_id, attack_id: attack_id, max_hp: max_hp)
+        attack_id = Attack.find_or_create_by(move: random_move_array, move_damage: rand(30..50)).id
+        pokemon_id = Pokemon.find_or_create_by(name: name, type_id: type_id, max_hp: max_hp).id
+        PokemonAttack.find_or_create_by(pokemon_id: pokemon_id, attack_id: attack_id)
+
     end
 end
 get_pokemon
