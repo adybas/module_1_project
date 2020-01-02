@@ -5,19 +5,14 @@ require_relative '../config/environment.rb'
 #prompt = TTY::Prompt.new
 @trainer = nil
 @computer_trainer = []
+@trainer_pkmn_hp = 0
+@computer_pkmn_hp = 0
 
 def clear_screen
     system"clear"
 end
 
 def choose_pokemon 
-    # randomly samples 5 pokemon from all Pokemon in database
-    # pokemon = Pokemon.all.sample(5)
-    # array of pokemon.name from our pokemon array in line 15
-    # pokemon_names = pokemon.map do |pokemon| 
-    #         pokemon.name
-    # end  
-
     # randomly samples 1 pokemon from all Pokemon in database
     random_pokemon = Pokemon.all.sample
     # sets var to pokemon.name
@@ -32,6 +27,7 @@ def choose_pokemon
         puts "Okay, great! Let's get started!"
         @trainer.pokemons.clear
         @trainer.pokemons << random_pokemon
+        @trainer_pkmn_hp = @trainer.pokemons[0].max_hp
         puts "#{@trainer.pokemons.last.name} has been added to Trainer #{@trainer.name}'s team!"
     elsif  team_option == "no"
         choose_pokemon
@@ -42,8 +38,36 @@ def computer_pokemon
     random_pokemon = Pokemon.all.sample
     @computer_trainer.clear
     @computer_trainer << random_pokemon
+    @computer_pkmn_hp = @computer_trainer[0].max_hp
+end
+
+def starting_battle_dialog
     puts "Trainer Computer has been assigned #{@computer_trainer[0].name}"
-    puts "Let's Battle"
+    puts "\n"
+    puts "Let's Battle #{@trainer.pokemons.last.name} VS #{@computer_trainer[0].name}"
+    puts "Your pokemon will go first!"
+    puts "\n"
+end
+
+def tr_pkmn_dmg
+    puts "Use #{@trainer.pokemons[0].attack.move}?"
+    puts "Type Yes or No"
+    battle_input = gets.chomp.downcase
+    if battle_input == "yes"
+    puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} uses #{@trainer.pokemons[0].attack.move}, which does #{@trainer.pokemons[0].attack.move_damage} damage to #{@computer_trainer[0].name}!"
+    @computer_pkmn_hp -= @trainer.pokemons[0].attack.move_damage
+    else
+        clear_screen
+        puts "You must attack!"
+        puts "\n"
+        puts "\n"
+        tr_pkmn_dmg
+    end
+end
+
+def computer_pkmn_dmg
+    puts "Computers #{@computer_trainer[0].name} uses #{@computer_trainer[0].attack.move}, which does #{@computer_trainer[0].attack.move_damage} damage to #{@trainer.pokemons[0].name}!"
+    @trainer_pkmn_hp -= @computer_trainer[0].attack.move_damage
 end
 
 def pokemon_ascii
