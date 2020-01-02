@@ -4,7 +4,7 @@ require_relative '../config/environment.rb'
 
 #prompt = TTY::Prompt.new
 @trainer = nil
-@computer_trainer = nil
+@computer_trainer = []
 
 def clear_screen
     system"clear"
@@ -38,10 +38,13 @@ def choose_pokemon
     end
 end
 
-# def computer_pokemon
-#     random_pokemon = Pokemon.all.sample
-#     @computer_trainer
-# end
+def computer_pokemon
+    random_pokemon = Pokemon.all.sample
+    @computer_trainer.clear
+    @computer_trainer << random_pokemon
+    puts "Trainer Computer has been assigned #{@computer_trainer[0].name}"
+    puts "Let's Battle"
+end
 
 def pokemon_ascii
     clear_screen
@@ -89,7 +92,7 @@ def run
     user_input
     start
     choose_pokemon
-    #computer_pokemon
+    computer_pokemon
 end
 
 run
