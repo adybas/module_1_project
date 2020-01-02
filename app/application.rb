@@ -63,11 +63,22 @@ def tr_pkmn_dmg
         puts "\n"
         tr_pkmn_dmg
     end
+    puts @computer_pkmn_hp
+    puts "\n"
+    computer_pkmn_dmg
 end
 
 def computer_pkmn_dmg
     puts "Computers #{@computer_trainer[0].name} uses #{@computer_trainer[0].attack.move}, which does #{@computer_trainer[0].attack.move_damage} damage to #{@trainer.pokemons[0].name}!"
     @trainer_pkmn_hp -= @computer_trainer[0].attack.move_damage
+    puts @trainer_pkmn_hp
+    puts "\n"
+    tr_pkmn_dmg
+end
+
+def battle_simulator
+    tr_pkmn_dmg
+    computer_pkmn_dmg
 end
 
 def pokemon_ascii
@@ -117,6 +128,8 @@ def run
     start
     choose_pokemon
     computer_pokemon
+    starting_battle_dialog
+    battle_simulator
 end
 
 run
