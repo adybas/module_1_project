@@ -1,4 +1,4 @@
 class Attack < ActiveRecord::Base
-    has_many :pokemons
-    has_many :types, through: :pokemons
+    belongs_to :pokemon
+    has_many :types, through: :pokemon
 end
