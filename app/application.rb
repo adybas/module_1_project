@@ -89,7 +89,7 @@ def run
     user_input
     start
     choose_pokemon
-    computer_pokemon
+    #computer_pokemon
 end
 
 run
