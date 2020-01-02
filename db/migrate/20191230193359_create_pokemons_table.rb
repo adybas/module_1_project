@@ -5,6 +5,7 @@ class CreatePokemonsTable < ActiveRecord::Migration[6.0]
       t.integer :type_id
       t.integer :attack_id
       t.integer :max_hp
+      t.integer :trainer_id
     end
   end
 end

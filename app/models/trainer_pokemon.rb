@@ -1,2 +1,4 @@
-class TrainerPokemon < ActiveRecord::Base 
-end
+# class TrainerPokemon < ActiveRecord::Base 
+#     has_many :pokemons
+#     belongs_to :trainer
+# end

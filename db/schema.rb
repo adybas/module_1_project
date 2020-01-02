@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2019_12_31_173131) do
     t.integer "type_id"
     t.integer "attack_id"
     t.integer "max_hp"
+    t.integer "trainer_id"
   end
 
   create_table "trainer_pokemons", force: :cascade do |t|
