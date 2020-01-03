@@ -8,6 +8,22 @@ require_relative '../config/environment.rb'
 @trainer_pkmn_hp = 0
 @computer_pkmn_hp = 0
 
+def trainer_pkmn_hp
+    if @trainer_pkmn_hp < 0
+        @trainer_pkmn_hp = 0
+    else
+        @trainer_pkmn_hp
+    end
+end
+
+def computer_pkmn_hp
+    if @computer_pkmn_hp < 0
+        @computer_pkmn_hp = 0
+    else
+        @computer_pkmn_hp
+    end
+end
+
 def clear_screen
     system"clear"
 end
@@ -82,7 +98,7 @@ def tr_pkmn_dmg(input)
     end
     
     puts "\n"
-    puts "Team Rocket Grunts #{@computer_trainer[0].name} has #{@computer_pkmn_hp} HP remaining!"
+    puts "Team Rocket Grunts #{@computer_trainer[0].name} has #{computer_pkmn_hp} HP remaining!"
     puts "\n"
 end
 
@@ -103,7 +119,7 @@ def computer_pkmn_dmg
     @trainer_pkmn_hp -= @computer_trainer[0].attacks[rand(0..3)].move_damage
     puts "\n"
     
-    puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} has #{@trainer_pkmn_hp} HP remaining!"
+    puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} has #{trainer_pkmn_hp} HP remaining!"
     puts "\n"      
 end
 

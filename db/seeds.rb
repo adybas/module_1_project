@@ -12,6 +12,7 @@ def get_pokemon_array
     pokemon_hash = JSON.parse(all_pokemon)
     pokemon_hash["results"]
 end
+
 def get_pokemon
     get_pokemon_array.map do |pokemon|
         name = pokemon["name"]
@@ -35,12 +36,11 @@ def get_pokemon
             move_url = move["url"]
                 move_url_data = RestClient.get(move_url)
                 move_url_hash = JSON.parse(move_url_data)
-                move_power_dmg = move_url_hash["power"] 
+                move_power_dmg = (move_url_hash["power"] ? move_url_hash["power"] : rand(1..25))
+
             attack_id = Attack.find_or_create_by(move: move_name, move_damage: move_power_dmg).id
             PokemonAttack.find_or_create_by(pokemon_id: pokemon_id, attack_id: attack_id)
         end
     end
 end
 get_pokemon
-
-#after everything is seeded, update Attack.all where move_dmg is NULL
