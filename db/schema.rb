@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 2020_01_02_174043) do
 
   create_table "attacks", force: :cascade do |t|
     t.string "move"
-    t.integer "move_damage", default: 0
+    t.integer "move_damage"
   end
 
   create_table "pokemon_attacks", force: :cascade do |t|
