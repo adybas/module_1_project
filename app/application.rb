@@ -28,6 +28,28 @@ def clear_screen
     system"clear"
 end
 
+def close_app
+    clear_screen
+    puts "Ok, thanks for stopping by!"
+    puts "\n"
+    puts  "See you next time!"
+    exit
+end
+
+def play_again?
+    puts "Would you like to play again?"
+    puts "\n"
+    puts "Yes or No?"
+    replay = gets.chomp.downcase
+    if replay == "yes"
+        @trainer = nil
+        run
+    elsif replay == "no"
+        close_app
+    else play_again?
+    end
+end
+
 def choose_pokemon 
     clear_screen
     # randomly samples 1 pokemon from all Pokemon in database
@@ -37,10 +59,11 @@ def choose_pokemon
     puts "\n"
     puts "Do you like this pokemon?"
     puts "\n"
-    puts "Yes or No" 
-    puts "\n"
-    # puts pokemon_names
     puts pokemon_name
+    puts "\n"
+    puts "Yes or No" 
+   
+    # puts pokemon_names
     puts "\n"
     team_option = gets.chomp.downcase
 
@@ -54,6 +77,8 @@ def choose_pokemon
         puts "#{@trainer.pokemons.last.name} has been added to Trainer #{@trainer.name}'s team!"
         puts "\n"
     elsif  team_option == "no"
+        choose_pokemon
+    else 
         choose_pokemon
     end
 end
@@ -127,17 +152,18 @@ def you_dead?
     puts "\n"
     puts "\n"
     puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
+   
     if @trainer_pkmn_hp <= 0 
-        abort("Team Rocket Grunt won with their #{@computer_trainer[0].name}! #{@trainer.name} runs in terror!!")
+        puts "Team Rocket Grunt won with their #{@computer_trainer[0].name}! #{@trainer.name} runs in terror!!"
+        play_again?
     elsif @computer_pkmn_hp <= 0
         puts "\n"
         puts "\n"
         puts "\n"
-        abort("#{@trainer.name} won with their #{@trainer.pokemons[0].name}! The Team Rocket Grunt runs in terror!!")
-      
+        puts "#{@trainer.name} won with their #{@trainer.pokemons[0].name}! The Team Rocket Grunt runs in terror!!"
+        puts "\n"
+        puts "\n"
+        play_again?
     end      
 end
 
@@ -148,6 +174,8 @@ def battle_simulator
         you_dead?
     end
 end
+
+
 
 
                    
@@ -199,10 +227,7 @@ end
         puts "\n"
         if battle_option == "no" 
             clear_screen
-            puts "Ok, thanks for stopping by!"
-            puts "\n"
-            puts  "See you next time!"
-            exit
+            close_app
         else
             "\n"
             puts "Let's battle! But first, you will need to accept your team!"
