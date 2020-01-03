@@ -8,21 +8,21 @@ require_relative '../config/environment.rb'
 @trainer_pkmn_hp = 0
 @computer_pkmn_hp = 0
 
-def trainer_pkmn_hp
-    if @trainer_pkmn_hp < 0
-        @trainer_pkmn_hp = 0
-    else
-        @trainer_pkmn_hp
-    end
-end
+# def trainer_pkmn_hp
+#     if @trainer_pkmn_hp < 0
+#         @trainer_pkmn_hp = 0
+#     else
+#         @trainer_pkmn_hp
+#     end
+# end
 
-def computer_pkmn_hp
-    if @computer_pkmn_hp < 0
-        @computer_pkmn_hp = 0
-    else
-        @computer_pkmn_hp
-    end
-end
+# def computer_pkmn_hp
+#     if @computer_pkmn_hp < 0
+#         @computer_pkmn_hp = 0
+#     else
+#         @computer_pkmn_hp
+#     end
+# end
 
 def clear_screen
     system"clear"
@@ -121,9 +121,9 @@ def tr_pkmn_dmg(input)
         puts "\n"
         battle_input
     end
-    
+    displayed = (@computer_pkmn_hp >= 0 ? @computer_pkmn_hp : 0)
     puts "\n"
-    puts "Team Rocket Grunts #{@computer_trainer[0].name} has #{computer_pkmn_hp} HP remaining!"
+    puts "Team Rocket Grunts #{@computer_trainer[0].name} has #{displayed} HP remaining!"
     puts "\n"
 end
 
@@ -140,13 +140,15 @@ def battle_input
 end
 
 def computer_pkmn_dmg 
-    puts "Team Rocket Grunts #{@computer_trainer[0].name} uses #{@computer_trainer[0].attacks[rand(0..3)].move}, which does #{@computer_trainer[0].attacks[rand(0..3)].move_damage} damage to #{@trainer.pokemons[0].name}!"
-    @trainer_pkmn_hp -= @computer_trainer[0].attacks[rand(0..3)].move_damage
+    computer_dmg = @computer_trainer[0].attacks[rand(0..3)].move_damage
+    puts "Team Rocket Grunts #{@computer_trainer[0].name} uses #{@computer_trainer[0].attacks[rand(0..3)].move}, which does #{computer_dmg} damage to #{@trainer.pokemons[0].name}!"
+    @trainer_pkmn_hp -= computer_dmg
     puts "\n"
-    
-    puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} has #{trainer_pkmn_hp} HP remaining!"
+    displayed = (@trainer_pkmn_hp >= 0 ? @trainer_pkmn_hp : 0)
+    puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} has #{displayed} HP remaining!"
     puts "\n"      
 end
+
 
 def you_dead?
     puts "\n"
@@ -170,6 +172,7 @@ end
 def battle_simulator
     while @computer_pkmn_hp >= 0 || @trainer_pkmn_hp >= 0 
         battle_input
+        you_dead?
         computer_pkmn_dmg
         you_dead?
     end
