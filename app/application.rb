@@ -50,37 +50,57 @@ def starting_battle_dialog
     puts "\n"
 end
 
-def tr_pkmn_dmg    
-    clear_screen
-    puts "Use #{@trainer.pokemons[0].attack.move}?"
-    puts "Type Yes or No"
-    battle_input = gets.chomp.downcase
-
-    if battle_input == "yes"
-        puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} uses #{@trainer.pokemons[0].attack.move}, which does #{@trainer.pokemons[0].attack.move_damage} damage to #{@computer_trainer[0].name}!"
-        @computer_pkmn_hp -= @trainer.pokemons[0].attack.move_damage
+def tr_pkmn_dmg(input)
+    if input == 1
+        puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} uses #{@trainer.pokemons[0].attacks[input.to_i - 1].move}, which does #{@trainer.pokemons[0].attacks[input.to_i - 1].move_damage} damage to #{@computer_trainer[0].name}!"
+        @computer_pkmn_hp -= @trainer.pokemons[0].attacks[input.to_i - 1].move_damage
+        
+    elsif input == 2
+        puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} uses #{@trainer.pokemons[0].attacks[input.to_i - 1].move}, which does #{@trainer.pokemons[0].attacks[input.to_i - 1].move_damage} damage to #{@computer_trainer[0].name}!"
+        @computer_pkmn_hp -= @trainer.pokemons[0].attacks[input.to_i - 1].move_damage
+        
+    elsif input == 3
+        puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} uses #{@trainer.pokemons[0].attacks[input.to_i - 1].move}, which does #{@trainer.pokemons[0].attacks[input.to_i - 1].move_damage} damage to #{@computer_trainer[0].name}!"
+        @computer_pkmn_hp -= @trainer.pokemons[0].attacks[input.to_i - 1].move_damage
+        
+    elsif input == 4
+        puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} uses #{@trainer.pokemons[0].attacks[input.to_i - 1].move}, which does #{@trainer.pokemons[0].attacks[input.to_i - 1].move_damage} damage to #{@computer_trainer[0].name}!"
+        @computer_pkmn_hp -= @trainer.pokemons[0].attacks[input.to_i - 1].move_damage
+        
     else
         puts "You must attack!"
         puts "\n"
         puts "\n"
-        
-        tr_pkmn_dmg
+        battle_input
     end
-
+    
     puts "\n"
     puts "Computers #{@computer_trainer[0].name} has #{@computer_pkmn_hp} HP remaining!"
     puts "\n"
 end
 
-def computer_pkmn_dmg 
+def battle_input
+    pkmn_attack_array = @trainer.pokemons[0].attacks
+    #[<Attack:0x00007fae86e81660 id: 1, move: "tackle", move_damage: 40>,
+    #<Attack:0x00007fae86ea8bc0 id: 2, move: "return", move_damage: nil>,
+    #<Attack:0x00007fae86ea8ad0 id: 3, move: "echoed-voice", move_damage: 40>,
+    #<Attack:0x00007fae86ea89b8 id: 4, move: "endure", move_damage: nil>]
+    puts "Which move to use?"
+    puts "\n"
+    pkmn_attack_array.each_with_index do |attack_obj, index|
+        puts "#{index + 1}. #{attack_obj.move}"
+    end
+    input = gets.chomp.to_i
+    tr_pkmn_dmg(input)
+end
 
-    puts "Computers #{@computer_trainer[0].name} uses #{@computer_trainer[0].attack.move}, which does #{@computer_trainer[0].attack.move_damage} damage to #{@trainer.pokemons[0].name}!"
-    @trainer_pkmn_hp -= @computer_trainer[0].attack.move_damage
+def computer_pkmn_dmg 
+    puts "Computers #{@computer_trainer[0].name} uses #{@computer_trainer[0].attacks[rand(0..3)].move}, which does #{@computer_trainer[0].attacks[rand(0..3)].move_damage} damage to #{@trainer.pokemons[0].name}!"
+    @trainer_pkmn_hp -= @computer_trainer[0].attacks[rand(0..3)].move_damage
     puts "\n"
     
     puts "#{@trainer.name}'s #{@trainer.pokemons[0].name} has #{@trainer_pkmn_hp} HP remaining!"
-    puts "\n"   
-    
+    puts "\n"      
 end
 
 def you_dead?
@@ -93,7 +113,7 @@ end
 
 def battle_simulator
     while @computer_pkmn_hp >= 0 || @trainer_pkmn_hp >= 0 
-        tr_pkmn_dmg
+        battle_input
         computer_pkmn_dmg
         you_dead?
     end
@@ -147,9 +167,8 @@ def run
     choose_pokemon
     computer_pokemon
     starting_battle_dialog
+    # battle_input
     battle_simulator
 end
 
 run
-
-# binding.pry
