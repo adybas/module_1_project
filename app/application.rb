@@ -120,9 +120,6 @@ def you_dead?
         puts "\n"
         puts "\n"
         puts "\n"
-        puts "\n"
-        puts "\n"
-        puts "\n"
         abort("#{@trainer.name} won with their #{@trainer.pokemons[0].name}! The Team Rocket Grunt runs in terror!!")
       
     end      
@@ -135,6 +132,9 @@ def battle_simulator
         you_dead?
     end
 end
+
+
+                   
 
 def pokemon_ascii
     clear_screen
@@ -156,6 +156,7 @@ end
     def welcome
     
         puts "Welcome to Pokemon Battler"
+        puts "\n"
         puts "Please enter your name!"
     end
 
@@ -167,13 +168,24 @@ end
     def start
         clear_screen
         pokemon_ascii
-        puts "Hi #{@trainer.name}! Welcome to the world of pokémon! My name is Professor Oak! People call me the pokémon Professor! This world is inhabited by creatures called pokémon! For some people, pokémon are pets. Others use them for fights. Myself...I study pokémon as a profession."
+        puts "Hi #{@trainer.name}! Welcome to the world of pokémon!"
+        puts "\n"
+        puts "My name is Professor Oak! People call me the pokémon Professor!"
+        puts "\n"
+        puts "This world is inhabited by creatures called pokémon! For some people, pokémon are pets. Others use them for fights."
+        puts "\n"
+        puts "Myself...I study pokémon as a profession."
         puts "\n"
         puts "Are you here to test your skills battling Pokemon?"
         puts "\n"
         puts "Please type Yes or No"
         battle_option = gets.chomp.downcase
+        puts "\n"
         if battle_option == "no" 
+            clear_screen
+            puts "Ok, thanks for stopping by!"
+            puts "\n"
+            puts  "See you next time!"
             exit
         else
             "\n"
