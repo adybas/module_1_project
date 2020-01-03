@@ -13,23 +13,30 @@ def clear_screen
 end
 
 def choose_pokemon 
+    clear_screen
     # randomly samples 1 pokemon from all Pokemon in database
     random_pokemon = Pokemon.all.sample
     # sets var to pokemon.name
     pokemon_name = random_pokemon.name
-
-    puts "Do you like this pokemon? Yes or No" 
+    puts "\n"
+    puts "Do you like this pokemon?"
+    puts "\n"
+    puts "Yes or No" 
+    puts "\n"
     # puts pokemon_names
     puts pokemon_name
+    puts "\n"
     team_option = gets.chomp.downcase
 
     if team_option == "yes"
         clear_screen
         puts "Okay, great! Let's get started!"
+        puts "\n"
         @trainer.pokemons.clear
         @trainer.pokemons << random_pokemon
         @trainer_pkmn_hp = @trainer.pokemons[0].max_hp
         puts "#{@trainer.pokemons.last.name} has been added to Trainer #{@trainer.name}'s team!"
+        puts "\n"
     elsif  team_option == "no"
         choose_pokemon
     end
@@ -43,7 +50,7 @@ def computer_pokemon
 end
 
 def starting_battle_dialog
-    puts "Trainer Computer has been assigned #{@computer_trainer[0].name}"
+    puts "Team Rocket Grunt has been assigned #{@computer_trainer[0].name}"
     puts "\n"
     puts "Let's Battle #{@trainer.pokemons.last.name} VS #{@computer_trainer[0].name}"
     puts "Your pokemon will go first!"
@@ -75,17 +82,14 @@ def tr_pkmn_dmg(input)
     end
     
     puts "\n"
-    puts "Computers #{@computer_trainer[0].name} has #{@computer_pkmn_hp} HP remaining!"
+    puts "Team Rocket Grunts #{@computer_trainer[0].name} has #{@computer_pkmn_hp} HP remaining!"
     puts "\n"
 end
 
 def battle_input
     pkmn_attack_array = @trainer.pokemons[0].attacks
-    #[<Attack:0x00007fae86e81660 id: 1, move: "tackle", move_damage: 40>,
-    #<Attack:0x00007fae86ea8bc0 id: 2, move: "return", move_damage: nil>,
-    #<Attack:0x00007fae86ea8ad0 id: 3, move: "echoed-voice", move_damage: 40>,
-    #<Attack:0x00007fae86ea89b8 id: 4, move: "endure", move_damage: nil>]
-    puts "Which move to use?"
+   
+    puts "Which move would you like to use?"
     puts "\n"
     pkmn_attack_array.each_with_index do |attack_obj, index|
         puts "#{index + 1}. #{attack_obj.move}"
@@ -95,7 +99,7 @@ def battle_input
 end
 
 def computer_pkmn_dmg 
-    puts "Computers #{@computer_trainer[0].name} uses #{@computer_trainer[0].attacks[rand(0..3)].move}, which does #{@computer_trainer[0].attacks[rand(0..3)].move_damage} damage to #{@trainer.pokemons[0].name}!"
+    puts "Team Rocket Grunts #{@computer_trainer[0].name} uses #{@computer_trainer[0].attacks[rand(0..3)].move}, which does #{@computer_trainer[0].attacks[rand(0..3)].move_damage} damage to #{@trainer.pokemons[0].name}!"
     @trainer_pkmn_hp -= @computer_trainer[0].attacks[rand(0..3)].move_damage
     puts "\n"
     
@@ -104,10 +108,23 @@ def computer_pkmn_dmg
 end
 
 def you_dead?
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
     if @trainer_pkmn_hp <= 0 
-        abort("Computer Trainer won with their #{@computer_trainer[0].name}! #{@trainer.name} runs in terror!!")
+        abort("Team Rocket Grunt won with their #{@computer_trainer[0].name}! #{@trainer.name} runs in terror!!")
     elsif @computer_pkmn_hp <= 0
-        abort("#{@trainer.name} won with their #{@trainer.pokemons[0].name}! Computer player runs in terror!!")
+        puts "\n"
+        puts "\n"
+        puts "\n"
+        puts "\n"
+        puts "\n"
+        puts "\n"
+        abort("#{@trainer.name} won with their #{@trainer.pokemons[0].name}! The Team Rocket Grunt runs in terror!!")
+      
     end      
 end
 
@@ -148,13 +165,18 @@ end
     end
    
     def start
+        clear_screen
+        pokemon_ascii
         puts "Hi #{@trainer.name}! Welcome to the world of pokémon! My name is Professor Oak! People call me the pokémon Professor! This world is inhabited by creatures called pokémon! For some people, pokémon are pets. Others use them for fights. Myself...I study pokémon as a profession."
+        puts "\n"
         puts "Are you here to test your skills battling Pokemon?"
+        puts "\n"
         puts "Please type Yes or No"
         battle_option = gets.chomp.downcase
         if battle_option == "no" 
             exit
         else
+            "\n"
             puts "Let's battle! But first, you will need to accept your team!"
         end
     end
